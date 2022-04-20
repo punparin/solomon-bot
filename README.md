@@ -1,8 +1,6 @@
 # yugioh-ocg-price-discord-bot
 
-> Your friendly OCG cards' price bot standing by on discord. The price references are scraped from [bigweb](https://bigweb.co.jp/) and [YUYU-TEI](https://yuyu-tei.jp/).
-
-## Showcase
+Your friendly Yu-Gi-Oh! OCG bot running on discord to help you find cards' price in English. The price references are scraped from [bigweb](https://bigweb.co.jp/) and [YUYU-TEI](https://yuyu-tei.jp/).
 
 ![solomon-showcase](images/solomon-showcase.gif)
 
@@ -21,7 +19,22 @@ pip install -r requirements.txt
 
 ### Environment variables
 
-```
+```env
 # .env
 DISCORD_TOKEN=<TOKEN>
+```
+
+### Running on local
+```sh
+# Run on machine
+python src/main.py
+
+# Run on docker
+earthly +compose-up
+earthly +compose-down
+```
+
+### Release
+```sh
+earthly --build-arg TAG=<TAG> --push +release
 ```
