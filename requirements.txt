@@ -5,6 +5,7 @@ beautifulsoup4==4.11.1
 certifi==2021.10.8
 chardet==4.0.0
 charset-normalizer==2.0.12
+CurrencyConverter==0.16.11
 discord.py==1.7.3
 idna==3.3
 multidict==6.0.2
