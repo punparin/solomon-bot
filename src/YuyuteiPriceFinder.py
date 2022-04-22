@@ -25,12 +25,13 @@ class YuyuteiPriceFinder(PriceFinder):
                 raw_card_id = card.find("p", {"class": "id"})
                 raw_price = card.find("p", {"class": "price"})
                 card_id = raw_card_id.text.strip()
-                price = self.format_price(raw_price)
+                jpy_price = self.format_price(raw_price)
+                thb_price = self.get_thb_price(jpy_price)
                 
-                card = Card(card_id, en_name, jp_name, self.source, self.yuyutei_icon, url, rarity, "Play", price)
+                card = Card(card_id, en_name, jp_name, self.source, self.yuyutei_icon, url, rarity, "Play", jpy_price, thb_price)
                 result.append(card)
 
-                print("[%s] - (%s) - Price: ¥%s" % (rarity, card_id, price))
+                print("[%s] - (%s) - Price: ¥%s" % (rarity, card_id, jpy_price))
 
         return result
 

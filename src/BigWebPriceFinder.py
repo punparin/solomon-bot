@@ -28,7 +28,8 @@ class BigWebPriceFinder(PriceFinder):
                 scratch = div.find("abbr", {"title": "=キズ"})
                 raw_price = div.find("span", {"class": "yendtr"})
                 raw_rarity = div.find("abbr", {"title": re.compile(r'.*レア$|.*レル|.*ーマル|^=20SC$|^=PG$|^=Mil-Super$|^=KC-Ultra$')})
-                price = self.format_price(raw_price)
+                jpy_price = self.format_price(raw_price)
+                thb_price = self.get_thb_price(jpy_price)
                 rarity = self.format_rarity(raw_rarity)
                 name = re.search("\"《.+》\"", str(raw_name)).group().replace("《", "").replace("》", "").replace("\"", "")
 
@@ -36,11 +37,11 @@ class BigWebPriceFinder(PriceFinder):
                     continue
 
                 if scratch is not None:
-                    card = Card("-", en_name, jp_name, self.source, self.bigweb_icon, url, rarity, "Scratch", price)
-                    print("[%s] - (Scratch) - Price: ¥%s" % (rarity, price))
+                    card = Card("-", en_name, jp_name, self.source, self.bigweb_icon, url, rarity, "Scratch", jpy_price, thb_price)
+                    print("[%s] - (Scratch) - Price: ¥%s" % (rarity, jpy_price))
                 else:
-                    card = Card("-", en_name, jp_name, self.source, self.bigweb_icon, url, rarity, "Play", price)
-                    print("[%s] - (Play) - Price: ¥%s" % (rarity, price))
+                    card = Card("-", en_name, jp_name, self.source, self.bigweb_icon, url, rarity, "Play", jpy_price, thb_price)
+                    print("[%s] - (Play) - Price: ¥%s" % (rarity, jpy_price))
                 
                 result.append(card)
             except AttributeError as err:

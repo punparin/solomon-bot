@@ -4,10 +4,12 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from Card import *
 from discord import Embed, Colour
+from currency_converter import CurrencyConverter
 
 
 class PriceFinder:
     def __init__(self):
+        self.currency_converter = CurrencyConverter()
         self.ygoprodeck_card_set_info_endpoint= "https://db.ygoprodeck.com/api/v7/cardsetsinfo.php"
         self.ygoprodeck_card_info_endpoint = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
         self.fandom_endpoint = "https://yugioh.fandom.com/wiki"
@@ -83,17 +85,24 @@ class PriceFinder:
     def format_name_for_search_engine(self, name):
         return name.replace("－", "−")
 
+    def get_thb_price(self, yen_price):
+        try:
+            return int(self.currency_converter.convert(int(yen_price), "JPY", "THB"))
+        except ValueError as err:
+            return "-"
+
     def get_embed_from_cards(self, cards):
         try:
             embed = Embed(title="{0} ({1})".format(cards[0].en_name, cards[0].jp_name), color=Colour.orange())
             embed.set_author(name=cards[0].source,url=cards[0].url, icon_url=cards[0].source_icon)
 
             for card in cards:
-                info = "ID: {0}\nRarity: {1}\nCondition: {2}\nPrice: ¥{3}".format(
+                info = "ID: {0}\nRarity: {1}\nCondition: {2}\nPrice: ¥{3} (THB {4})".format(
                     card.card_id,
                     card.rarity,
                     card.condition,
-                    card.price
+                    card.jpy_price,
+                    card.thb_price
                 )
                 embed.add_field(name="Information", value=info)
 
