@@ -1,4 +1,4 @@
-# yugioh-ocg-price-discord-bot
+# solomon-bot
 
 Your friendly Yu-Gi-Oh! OCG bot running on discord to help you find cards' price in English. The price references are scraped from [bigweb](https://bigweb.co.jp/) and [YUYU-TEI](https://yuyu-tei.jp/).
 
@@ -25,6 +25,7 @@ DISCORD_TOKEN=<TOKEN>
 ```
 
 ### Running on local
+
 ```sh
 # Run on machine
 python src/main.py
@@ -35,6 +36,7 @@ earthly +compose-down
 ```
 
 ### Release
+
 ```sh
 earthly --build-arg TAG=<TAG> --push +release
 ```

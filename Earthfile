@@ -1,6 +1,6 @@
 FROM --platform=linux/arm64 python:3.9
 
-ARG IMAGE=punparin/yugioh-ocg-price-discord-bot
+ARG IMAGE=punparin/solomon-bot
 ARG TAG=latest
 
 WORKDIR /app
