@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import urllib.parse
+from http import HTTPStatus
 from discord import Embed, Colour
 from elasticsearch import Elasticsearch, helpers
 from Card import Card
@@ -38,7 +39,7 @@ class Finder:
         try:
             r = requests.get(url)
 
-            if r.status_code != 200:
+            if r.status_code != HTTPStatus.OK:
                 raise SolomonAPIError("Encountered invalid request from Solomon API")
 
             return r.json()
