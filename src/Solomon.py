@@ -1,13 +1,14 @@
 import re
 import discord
-from BigWebPriceFinder import *
-from YuyuteiPriceFinder import *
+from Finder import Finder
+from Logger import Logger
 
 
-bigWebPriceFinder = BigWebPriceFinder()
-yuyuteiPriceFinder = YuyuteiPriceFinder()
+logger = Logger()
+finder = Finder(logger)
 
 class Solomon(discord.Client):
+
     def format_content(self, content):
         return content.replace("(", "").replace(")", "")
 
@@ -21,11 +22,7 @@ class Solomon(discord.Client):
         if not isMatched:
             return
 
-        bigweb_result = bigWebPriceFinder.find_prices(content)
-        bigweb_embed = bigWebPriceFinder.get_embed_from_cards(bigweb_result)
-
-        ryuyutei_result = yuyuteiPriceFinder.find_prices(content)
-        yuyutei_embed = yuyuteiPriceFinder.get_embed_from_cards(ryuyutei_result)
+        bigweb_embed, yuyutei_embed = finder.find_cards(content)
 
         await message.channel.send(embed=bigweb_embed)
         await message.channel.send(embed=yuyutei_embed)

@@ -1,5 +1,5 @@
 import os
-from Solomon import *
+from Solomon import Solomon
 
 
 if __name__ == "__main__":
