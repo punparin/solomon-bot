@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
     dev:
-        container_name: yugioh-ocg-price-discord-bot
-        image: punparin/yugioh-ocg-price-discord-bot:local
+        container_name: solomon-bot
+        image: punparin/solomon-bot:local
         env_file:
             - .env
         restart: unless-stopped
