@@ -89,22 +89,29 @@ class Finder:
         es_card = self.find_fuzzy_card_from_name(input_name)
 
         if es_card is None:
-            return Embed(
+            return [Embed(
                 title="Name not found",
                 description="Unable to find {0}".format(input_name),
                 color=0xE4443A
-                )
+                )]
+
+        elif "jp_name" not in es_card["_source"]:
+            return [Embed(
+                title="Japanese Name not found",
+                description="Unable to find {0}".format(input_name),
+                color=0xE4443A
+                )]
 
         en_name = es_card["_source"]["name"]
         jp_name = es_card["_source"]["jp_name"]
         img_id = es_card["_source"]["id"]
 
         if jp_name == "":
-            return Embed(
+            return [Embed(
                 title="Japanese name not found",
                 description="Unable to find {0} in japanese".format(input_name),
                 color=0xE4443A
-                )
+                )]
 
         bigweb_card_info = CardInfo("Bigweb", en_name, jp_name, img_id)
         yuyutei_card_info = CardInfo("YUYUTEI", en_name, jp_name, img_id)
@@ -112,20 +119,20 @@ class Finder:
         try:
             bigweb_solomon_response = self.get_cards("bigweb", jp_name)
         except SolomonAPIError as err:
-            return Embed(
+            return [Embed(
                 title="Error from Solomon API",
                 description=err,
                 color=0xE4443A
-                )
+                )]
         
         try:
             yuyutei_solomon_response = self.get_cards("yuyutei", jp_name)
         except SolomonAPIError as err:
-            return Embed(
+            return [Embed(
                 title="Error from Solomon API",
                 description=err,
                 color=0xE4443A
-                )
+                )]
 
         bigweb_card_info = self.merge_solomon_response_to_card_info(bigweb_card_info, bigweb_solomon_response)
         bigweb_embed = self.get_embed_from_card_info(bigweb_card_info)
@@ -133,4 +140,4 @@ class Finder:
         yuyutei_card_info = self.merge_solomon_response_to_card_info(yuyutei_card_info, yuyutei_solomon_response)
         yuyutei_embed = self.get_embed_from_card_info(yuyutei_card_info)
 
-        return bigweb_embed, yuyutei_embed
+        return [bigweb_embed, yuyutei_embed]

@@ -22,7 +22,14 @@ class Solomon(discord.Client):
         if not isMatched:
             return
 
-        bigweb_embed, yuyutei_embed = finder.find_cards(content)
+        embed = finder.find_cards(content)
 
-        await message.channel.send(embed=bigweb_embed)
-        await message.channel.send(embed=yuyutei_embed)
+        if len(embed) < 2:
+            error_embed = embed[0]
+            
+            await message.channel.send(embed=error_embed)
+        else:
+            bigweb_embed, yuyutei_embed = embed[0], embed[1]
+
+            await message.channel.send(embed=bigweb_embed)
+            await message.channel.send(embed=yuyutei_embed)
